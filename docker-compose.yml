@@ -5,6 +5,12 @@ services:
     - 27017:27017
   volumes:
     - mongodb_data_container:/data/db
+ mongo2:
+  image: mongo:latest
+  ports:
+    - 27017:27017
+  volumes:
+    - mongodb_data_container2:/data/db
     
  mysql:
   image: mysql:latest
@@ -27,6 +33,18 @@ services:
    MONGODB_PORT: 27017
    MONGODB_HOST: mongo
    
+ user-service:
+  depends_on:
+    - mongo2
+  image: r0811509/mobile-user
+  ports:
+    - 8053:8053
+  links:
+    - mongo2
+  environment:
+   MONGODB_PORT: 27017
+   MONGODB_HOST: mongo2
+   
  beer-service:
   depends_on:
     - mysql
@@ -42,4 +60,5 @@ services:
 
 volumes:
  mongodb_data_container:
+ mongodb_data_container2:
  mysql_data_container:
