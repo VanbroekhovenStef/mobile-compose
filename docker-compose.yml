@@ -1,0 +1,45 @@
+services:
+ mongo:
+  image: mongo:latest
+  ports:
+    - 27017:27017
+  volumes:
+    - mongodb_data_container:/data/db
+    
+ mysql:
+  image: mysql:latest
+  ports:
+    - 3306:3306
+  volumes:
+    - mysql_data_container:/var/lib/mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: abc123
+    
+ review-service:
+  depends_on:
+    - mongo
+  image: r0811509/mobile-consumption
+  ports:
+    - 8052:8052
+  links:
+    - mongo
+  environment:
+   MONGODB_PORT: 27017
+   MONGODB_HOST: mongo
+   
+ book-info-service:
+  depends_on:
+    - mysql
+  image: r0811509/mobile-beer
+  ports:
+    - 8051:8051
+  links:
+    - mysql
+  environment:
+   MYSQL_DB_USERNAME: root
+   MYSQL_DB_PASSWORD: abc123
+   MYSQL_DB_HOST: mysql
+
+volumes:
+ mongodb_data_container:
+ mysql_data_container:
