@@ -15,7 +15,7 @@ services:
   environment:
    MYSQL_ROOT_PASSWORD: abc123
     
- review-service:
+ consumption-service:
   depends_on:
     - mongo
   image: r0811509/mobile-consumption
@@ -27,7 +27,7 @@ services:
    MONGODB_PORT: 27017
    MONGODB_HOST: mongo
    
- book-info-service:
+ beer-service:
   depends_on:
     - mysql
   image: r0811509/mobile-beer
