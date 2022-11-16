@@ -66,6 +66,14 @@ services:
   image: r0811509/mobile-edge
   ports:
     - 8053:8053
+  links:
+    - beer-service
+    - user-service
+    - consumption-service
+  environment:
+   BEER_SERVICE_BASEURL: beer-service:8051
+   USER_SERVICE_BASEURL: user-service:8053
+   CONSUMPTION_SERVICE_BASEURL: consumption-service:8052
 
  
 volumes:
